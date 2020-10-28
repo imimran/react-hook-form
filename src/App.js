@@ -4,15 +4,14 @@ import { useForm } from "react-hook-form";
 import * as yup from 'yup'
 
 const Schema = yup.object().shape({
-  username: yup.string().required().min(3)
-})
+  username: yup.string().required().min(3),
+  email: yup.string().email().required(),
+  password: yup.string().required().min(5)
+});
 
 function App() {
   const { handleSubmit, register, errors } = useForm({ validationSchema: Schema });
   
-  // const [username, setUserName] = useState("");
-  // const [age, setAge] = useState(0);
-  // const [remember, setRemember] = useState(false);
 
   function onSubmit(data) {
     console.log(data);
@@ -21,13 +20,18 @@ function App() {
 
   return (
     <div>
-      <h1>react-hook-form</h1>
+      <h3>react-hook-form</h3>
+      <h3>User Sign Up</h3>
       <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
         <label>Username</label>
         <input type="text" name="username" ref={register} />
-  { errors.username && <p>{errors.username.message}</p>}
-        <label>Age</label>
-        <input type="number" name="age" ref={register} />
+        {errors.username && <p>{errors.username.message}</p>}
+        <label>Email</label>
+        <input type="text" name="email" ref={register} />
+        {errors.email && <p>{errors.email.message}</p>}
+        <label>Password</label>
+        <input type="text" name="password" ref={register} />
+        {errors.password && <p>{errors.password.message}</p>}
 
         <span>
           <input type="checkbox" name="remember" ref={register} />
