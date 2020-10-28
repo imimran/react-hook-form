@@ -1,25 +1,31 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
 import { useForm } from "react-hook-form";
+import * as yup from 'yup'
 
-
-
+const Schema = yup.object().shape({
+  username: yup.string().required().min(3)
+})
 
 function App() {
+  const { handleSubmit, register, errors } = useForm({ validationSchema: Schema });
+  
+  // const [username, setUserName] = useState("");
+  // const [age, setAge] = useState(0);
+  // const [remember, setRemember] = useState(false);
 
-  function onSubmit(formData) {
-    console.log(formData);
+  function onSubmit(data) {
+    console.log(data);
   }
-
-  console.log(errors)
+  console.log(errors);
 
   return (
     <div>
       <h1>react-hook-form</h1>
-      <form autoComplete="off" onSubmit={onSubmit}>
+      <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
         <label>Username</label>
         <input type="text" name="username" ref={register} />
-
+  { errors.username && <p>{errors.username.message}</p>}
         <label>Age</label>
         <input type="number" name="age" ref={register} />
 
